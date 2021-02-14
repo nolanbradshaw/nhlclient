@@ -13,7 +13,12 @@ class PlayerModel():
     def __init__(self, json):
         self.id = json['person']['id']
         self.full_name = json['person']['fullName']
-        self.jersey_number = json['jerseyNumber']
+        
+        if 'jerseyNumber' in json:
+            self.jersey_number = json['jerseyNumber']
+        else:
+            self.jersey_number = 'N/A'
+            
         self.position = json['position']['name']
         
 class DivisionModel():

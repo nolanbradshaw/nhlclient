@@ -50,5 +50,22 @@ def get_roster(id):
     json = response.json()['teams'][0]
     
     return [PlayerModel(player) for player in json['roster']['roster']]
+
+def get_roster_by_season(id, season):
+    """
+    Get a teams roster for a specific season.
+
+    Args:
+        id (int): The id for the team.
+        season (str): The season to retrieve the roster (Ex. 20132014).
+
+    Returns:
+        [List of PlayerModel]: A list of PlayerModel objects.
+    """
+    
+    url = BASE_URL + f'/teams/{id}?expand=team.roster&season={season}'
+    response = requests.get(url)
+    json = response.json()['teams'][0]
+    return [PlayerModel(player) for player in json['roster']['roster']]
     
     

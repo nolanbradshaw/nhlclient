@@ -16,3 +16,8 @@ class Test_Teams(unittest.TestCase):
         response = teams.get_roster(1)
         self.assertIsInstance(response, list)
         assert isinstance(response[0], PlayerModel)
+        
+    def test_roster_by_season(self):
+        response = teams.get_roster_by_season(1, '20132014')
+        self.assertIsInstance(response, list)
+        assert isinstance(response[0], PlayerModel)
