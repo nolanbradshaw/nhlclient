@@ -13,7 +13,7 @@ class Test_Teams(unittest.TestCase):
         assert isinstance(response[0], TeamModel)
         
     def test_roster_by_id(self):
-        response = teams.get_roster(1)
+        response = teams.get_roster_by_id(1)
         self.assertIsInstance(response, list)
         assert isinstance(response[0], PlayerModel)
         

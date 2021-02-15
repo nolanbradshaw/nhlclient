@@ -18,9 +18,6 @@ def get_by_id(id):
     json = response.json()['teams'][0]
     return TeamModel(json)
 
-# Get teams by a string of comma seperated team ids
-# def get_by_ids():
-
 def get():
     """
     Get information for all teams.
@@ -34,7 +31,7 @@ def get():
     
     return team_list
 
-def get_roster(id):
+def get_roster_by_id(id):
     """
     Get a teams roster by id.
 
@@ -67,5 +64,5 @@ def get_roster_by_season(id, season):
     response = requests.get(url)
     json = response.json()['teams'][0]
     return [PlayerModel(player) for player in json['roster']['roster']]
-    
+
     
