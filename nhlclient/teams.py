@@ -1,7 +1,7 @@
 import requests
 from requests.exceptions import HTTPError
 from .constants import BASE_URL
-from .models import TeamModel, DivisionModel, ConferenceModel, VenueModel, PlayerModel
+from .models import *
 
 def get_by_id(id):
     """
@@ -84,5 +84,27 @@ def get_roster_by_season(id, season):
         return [PlayerModel(player) for player in json['roster']['roster']]
     except HTTPError as e:
         raise ValueError(f'Could not find a team with that id ({id}) for the given season.')
+    
+def get_last_game(id):
+    try:
+        url = BASE_URL + f'/teams/{id}?expand=team.schedule.previous'
+        resp = requests.get(url)
+        resp.raise_for_status()
+        
+        json = resp.json()['teams'][0]['previousGameSchedule']['dates'][0]
+        game = json['games'][0]
+        
+        return GameModel(date=json['date'],
+                         game_id=game['gamePk'],
+                         season=game['season'],
+                         detailed_status=game['status']['detailedState'],
+                         away_team_id=game['teams']['away']['team']['id'],
+                         away_team_name=game['teams']['away']['team']['name'],
+                         away_team_score=game['teams']['away']['score'],
+                         home_team_id=game['teams']['home']['team']['id'],
+                         home_team_name=game['teams']['home']['team']['name'],
+                         home_team_score=game['teams']['home']['score'])
+    except HTTPError as e:
+        raise ValueError(f'Could not find a team with that id ({id}).')
 
     

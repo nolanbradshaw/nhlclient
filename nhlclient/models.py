@@ -20,7 +20,15 @@ class PlayerModel():
             self.jersey_number = 'N/A'
             
         self.position = json['position']['name']
-        
+
+class GameModel():
+    def __init__(self, **kwargs):
+        valid_keys = ['date', 'game_id', 'season', 'detailed_status', 
+                      'away_team_id', 'away_team_name', 'away_team_score',
+                      'home_team_id', 'home_team_name', 'home_team_score']
+        for key in valid_keys:
+            setattr(self, key, kwargs.get(key))
+
 class DivisionModel():
     def __init__(self, id, name, **kwargs):
         self.id = id
