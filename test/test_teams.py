@@ -4,6 +4,7 @@ from nhlclient.constants import TEAMS
 from nhlclient.models.game import Game
 from nhlclient.models.player import Player
 from nhlclient.models.team import Team
+from nhlclient.models.roster import Roster
 
 class TestTeams(unittest.TestCase):
     def test_get_by_id(self):
@@ -24,7 +25,7 @@ class TestTeams(unittest.TestCase):
     def test_roster_by_id(self):
         response = teams.get_roster_by_id(TEAMS['TBL'])
         self.assertIsInstance(response, list)
-        assert isinstance(response[0], Player)
+        assert isinstance(response[0], Roster)
         
     def test_roster_by_id_not_found(self):
         """
@@ -35,7 +36,7 @@ class TestTeams(unittest.TestCase):
     def test_roster_by_season(self):
         response = teams.get_roster_by_season(TEAMS['TOR'], '20132014')
         self.assertIsInstance(response, list)
-        assert isinstance(response[0], Player)
+        assert isinstance(response[0], Roster)
         
     def test_roster_by_season_not_found(self):
         """

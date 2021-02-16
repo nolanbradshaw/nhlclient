@@ -2,7 +2,7 @@ import requests
 from requests.exceptions import HTTPError
 from .constants import BASE_URL
 from .models.game import Game
-from .models.player import Player
+from .models.roster import Roster
 from .models.team import Team
 
 def get_by_id(id):
@@ -77,9 +77,9 @@ def get_roster_by_id(id):
             if 'jerseyNumber' in player:
                 jersey_num = player['jerseyNumber']
                 
-            player_list.append(Player(
+            player_list.append(Roster(
                 id=player['person']['id'],
-                name=player['person']['fullName'],
+                full_name=player['person']['fullName'],
                 position=player['position']['name'],
                 jersey_number=jersey_num
             ))
@@ -114,9 +114,9 @@ def get_roster_by_season(id, season):
             if 'jerseyNumber' in player:
                 jersey_num = player['jerseyNumber']
                 
-            player_list.append(Player(
+            player_list.append(Roster(
                 id=player['person']['id'],
-                name=player['person']['fullName'],
+                full_name=player['person']['fullName'],
                 position=player['position']['name'],
                 jersey_number=jersey_num
             ))
