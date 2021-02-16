@@ -29,7 +29,7 @@ def get_by_id(id):
             team_name=json['teamName'],
             official_site_url=json['officialSiteUrl']
         )
-    except HTTPError as e:
+    except HTTPError:
         raise ValueError(f'Could not find a team with that id ({id}).')
 
 def get():
@@ -85,7 +85,7 @@ def get_roster_by_id(id):
             ))
             
         return player_list
-    except HTTPError as e:
+    except HTTPError:
         raise ValueError(f'Could not find a team with that id ({id}).')
 
 def get_roster_by_season(id, season):
@@ -122,10 +122,22 @@ def get_roster_by_season(id, season):
             ))
         
         return player_list
-    except HTTPError as e:
+    except HTTPError:
         raise ValueError(f'Could not find a team with that id ({id}) for the given season.')
     
 def get_last_game(id):
+    """
+    Get a teams last played game.
+
+    Args:
+        id (int): The id for the team.
+
+    Raises:
+        ValueError: Could not find a team with the given id.
+        
+    Returns:
+        Game" A Game object.
+    """
     try:
         url = BASE_URL + f'/teams/{id}?expand=team.schedule.previous'
         resp = requests.get(url)
@@ -135,16 +147,51 @@ def get_last_game(id):
         game = json['games'][0]
         
         return Game(date=json['date'],
-                         game_id=game['gamePk'],
-                         season=game['season'],
-                         detailed_status=game['status']['detailedState'],
-                         away_team_id=game['teams']['away']['team']['id'],
-                         away_team_name=game['teams']['away']['team']['name'],
-                         away_team_score=game['teams']['away']['score'],
-                         home_team_id=game['teams']['home']['team']['id'],
-                         home_team_name=game['teams']['home']['team']['name'],
-                         home_team_score=game['teams']['home']['score'])
-    except HTTPError as e:
+                    game_id=game['gamePk'],
+                    season=game['season'],
+                    detailed_status=game['status']['detailedState'],
+                    away_team_id=game['teams']['away']['team']['id'],
+                    away_team_name=game['teams']['away']['team']['name'],
+                    away_team_score=game['teams']['away']['score'],
+                    home_team_id=game['teams']['home']['team']['id'],
+                    home_team_name=game['teams']['home']['team']['name'],
+                    home_team_score=game['teams']['home']['score'])
+    except HTTPError:
         raise ValueError(f'Could not find a team with that id ({id}).')
+    
+def get_next_game(id):
+    """
+    Get a teams next game.
+
+    Args:
+        id (int): The id for the team.
+
+    Raises:
+        ValueError: Could not find a team with the given id.
+
+    Returns:
+        Game: A Game object.
+    """
+    try:
+        url = BASE_URL + f'/teams/{id}?expand=team.schedule.next'
+        resp = requests.get(url)
+        resp.raise_for_status()
+        
+        json = resp.json()['teams'][0]['nextGameSchedule']['dates'][0]
+        game = json['games'][0]
+        
+        return Game(date=json['date'],
+                    game_id=game['gamePk'],
+                    season=game['season'],
+                    detailed_status=game['status']['detailedState'],
+                    away_team_id=game['teams']['away']['team']['id'],
+                    away_team_name=game['teams']['away']['team']['name'],
+                    away_team_score=game['teams']['away']['score'],
+                    home_team_id=game['teams']['home']['team']['id'],
+                    home_team_name=game['teams']['home']['team']['name'],
+                    home_team_score=game['teams']['home']['score'])
+    except HTTPError:
+        raise ValueError(f'Could not find a team with that id ({id}).')
+        
 
     
