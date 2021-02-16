@@ -1,9 +1,9 @@
 import requests
+from requests.exceptions import HTTPError
 from .constants import BASE_URL
 from .models.game import Game
 from .models.player import Player
 from .models.team import Team
-from requests.exceptions import HTTPError
 
 def get_by_id(id):
     """

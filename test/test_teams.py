@@ -4,7 +4,7 @@ from nhlclient.models.game import Game
 from nhlclient.models.player import Player
 from nhlclient.models.team import Team
 
-class Test_Teams(unittest.TestCase):
+class TestTeams(unittest.TestCase):
     def test_get_by_id(self):
         response = teams.get_by_id(1)
         self.assertIsInstance(response, Team)
