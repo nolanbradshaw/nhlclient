@@ -51,3 +51,10 @@ class Test_Teams(unittest.TestCase):
             Should raise a ValueError as no team with id 0 exists.
         """
         self.assertRaises(ValueError, teams.get_last_game, 0)
+        
+    def test_get_next_game(self):
+        response = teams.get_next_game(1)
+        self.assertIsInstance(response, Game)
+    
+    def test_get_next_game_not_found(self):
+        self.assertRaises(ValueError, teams.get_next_game, 0)
