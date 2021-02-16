@@ -1,12 +1,13 @@
 import unittest
-from pprint import pprint
 from nhlclient import teams
-from nhlclient.models import *
+from nhlclient.models.game import Game
+from nhlclient.models.player import Player
+from nhlclient.models.team import Team
 
 class Test_Teams(unittest.TestCase):
     def test_get_by_id(self):
         response = teams.get_by_id(1)
-        self.assertIsInstance(response, TeamModel)
+        self.assertIsInstance(response, Team)
         
     def test_get_by_id_not_found(self):
         """
@@ -17,12 +18,12 @@ class Test_Teams(unittest.TestCase):
     def test_get(self):
         response = teams.get()
         self.assertIsInstance(response, list)
-        assert isinstance(response[0], TeamModel)
+        assert isinstance(response[0], Team)
         
     def test_roster_by_id(self):
         response = teams.get_roster_by_id(1)
         self.assertIsInstance(response, list)
-        assert isinstance(response[0], PlayerModel)
+        assert isinstance(response[0], Player)
         
     def test_roster_by_id_not_found(self):
         """
@@ -33,7 +34,7 @@ class Test_Teams(unittest.TestCase):
     def test_roster_by_season(self):
         response = teams.get_roster_by_season(1, '20132014')
         self.assertIsInstance(response, list)
-        assert isinstance(response[0], PlayerModel)
+        assert isinstance(response[0], Player)
         
     def test_roster_by_season_not_found(self):
         """
@@ -43,7 +44,7 @@ class Test_Teams(unittest.TestCase):
         
     def test_get_last_game(self):
         response = teams.get_last_game(1)
-        self.assertIsInstance(response, GameModel)
+        self.assertIsInstance(response, Game)
         
     def test_get_last_game_not_found(self):
         """
