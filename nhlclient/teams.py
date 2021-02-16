@@ -37,7 +37,7 @@ def get():
     Get information for all teams.
 
     Returns:
-        List of TeamModel: A list of TeamModel objects.
+        List: A list of TeamModel objects.
     """
     resp = requests.get(BASE_URL + '/teams')
     json = resp.json()['teams']
@@ -63,7 +63,7 @@ def get_roster_by_id(id):
         ValueError: Could not find a team with the given id.
 
     Returns:
-        List of PlayerModel: A list of PlayerModel objects.
+        List: A list of PlayerModel objects.
     """
     try:
         url = BASE_URL + f'/teams/{id}?expand=team.roster'
@@ -100,7 +100,7 @@ def get_roster_by_season(id, season):
         ValueError: Could not find team by id for the given season.
 
     Returns:
-        List of PlayerModel: A list of PlayerModel objects.
+        List: A list of PlayerModel objects.
     """
     try:
         url = BASE_URL + f'/teams/{id}?expand=team.roster&season={season}'
@@ -136,7 +136,7 @@ def get_last_game(id):
         ValueError: Could not find a team with the given id.
         
     Returns:
-        Game" A Game object.
+        Game: A Game object.
     """
     try:
         url = BASE_URL + f'/teams/{id}?expand=team.schedule.previous'
