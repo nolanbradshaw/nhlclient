@@ -17,12 +17,7 @@ def get():
     
     division_list = []
     for division in json:
-        division_list.append(Division(
-            id=division['id'],
-            name=division['name'],
-            abbreviation=division['abbreviation'],
-            is_active=division['active']
-        ))
+        division_list.append(Division(division))
         
     return division_list
 
@@ -50,12 +45,7 @@ def get_by_id(id):
             raise HTTPError
         
         division = json['divisions'][0]
-        return Division(
-            id=division['id'],
-            name=division['name'],
-            abbreviation=division['abbreviation'],
-            is_active=division['active']
-        )
+        return Division(division)
     except HTTPError:
         raise ValueError(f'Could not find a division with id ({id}).')
     

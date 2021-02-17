@@ -1,4 +1,6 @@
 from .base import NHLBase
+from .position import Position
+from .team import Team
 
 class Player(NHLBase):
     def __init__(self, data):
@@ -18,17 +20,8 @@ class Player(NHLBase):
         self.is_captain = self.data.get('captain')
         self.is_rookie = self.data.get('rookie')
         self.handedness = self.data.get('shootsCatches')
-        self.position_dict = self.data.get('primaryPosition', {})
-        self.current_team_dict = self.data.get('currentTeam', {})
-        
-    @property
-    def position_name(self):
-        return self.position_dict.get('name')
+        self.position = Position(self.data.get('primaryPosition', {}))
+        self.team = Team(self.data.get('currentTeam', {}))
     
-    @property
-    def current_team_id(self):
-        return self.current_team_dict.get('id')
-    
-    @property
-    def current_team_name(self):
-        return self.current_team_dict.get('name')
+    def __str__(self):
+        return self.full_name

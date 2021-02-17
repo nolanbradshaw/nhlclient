@@ -5,4 +5,4 @@ class NHLBase(object):
         self.data = data
         
     def get_json(self):
-        return data
+        return self.data

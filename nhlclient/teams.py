@@ -22,13 +22,8 @@ def get_by_id(id):
         url = BASE_URL + f'/teams/{id}'
         resp = requests.get(url)
         resp.raise_for_status()
-        json = resp.json()['teams'][0]
-        return Team(
-            id=json['id'],
-            name=json['name'],
-            team_name=json['teamName'],
-            official_site_url=json['officialSiteUrl']
-        )
+        data = resp.json()['teams'][0]
+        return Team(data)
     except HTTPError:
         raise ValueError(f'Could not find a team with that id ({id}).')
 
@@ -43,12 +38,7 @@ def get():
     json = resp.json()['teams']
     team_list = []
     for team in json:
-        team_list.append(Team(
-            id=team['id'],
-            name=team['name'],
-            team_name=team['teamName'],
-            official_site_url=team['officialSiteUrl']
-        ))
+        team_list.append(Team(team))
     
     return team_list
 
@@ -73,16 +63,7 @@ def get_roster_by_id(id):
 
         player_list = []
         for player in json:
-            jersey_num = 0
-            if 'jerseyNumber' in player:
-                jersey_num = player['jerseyNumber']
-                
-            player_list.append(Roster(
-                id=player['person']['id'],
-                full_name=player['person']['fullName'],
-                position=player['position']['name'],
-                jersey_number=jersey_num
-            ))
+            player_list.append(Roster(player))
             
         return player_list
     except HTTPError:
@@ -109,17 +90,8 @@ def get_roster_by_season(id, season):
         json = resp.json()['teams'][0]['roster']['roster']
         
         player_list = []
-        for player in json:
-            jersey_num = 0
-            if 'jerseyNumber' in player:
-                jersey_num = player['jerseyNumber']
-                
-            player_list.append(Roster(
-                id=player['person']['id'],
-                full_name=player['person']['fullName'],
-                position=player['position']['name'],
-                jersey_number=jersey_num
-            ))
+        for player in json:   
+            player_list.append(Roster(player))
         
         return player_list
     except HTTPError:
@@ -144,18 +116,9 @@ def get_last_game(id):
         resp.raise_for_status()
         
         json = resp.json()['teams'][0]['previousGameSchedule']['dates'][0]
-        game = json['games'][0]
+        data = json['games'][0]
         
-        return Game(date=json['date'],
-                    game_id=game['gamePk'],
-                    season=game['season'],
-                    detailed_status=game['status']['detailedState'],
-                    away_team_id=game['teams']['away']['team']['id'],
-                    away_team_name=game['teams']['away']['team']['name'],
-                    away_team_score=game['teams']['away']['score'],
-                    home_team_id=game['teams']['home']['team']['id'],
-                    home_team_name=game['teams']['home']['team']['name'],
-                    home_team_score=game['teams']['home']['score'])
+        return Game(data)
     except HTTPError:
         raise ValueError(f'Could not find a team with that id ({id}).')
     
@@ -178,18 +141,9 @@ def get_next_game(id):
         resp.raise_for_status()
         
         json = resp.json()['teams'][0]['nextGameSchedule']['dates'][0]
-        game = json['games'][0]
+        data = json['games'][0]
         
-        return Game(date=json['date'],
-                    game_id=game['gamePk'],
-                    season=game['season'],
-                    detailed_status=game['status']['detailedState'],
-                    away_team_id=game['teams']['away']['team']['id'],
-                    away_team_name=game['teams']['away']['team']['name'],
-                    away_team_score=game['teams']['away']['score'],
-                    home_team_id=game['teams']['home']['team']['id'],
-                    home_team_name=game['teams']['home']['team']['name'],
-                    home_team_score=game['teams']['home']['score'])
+        return Game(data)
     except HTTPError:
         raise ValueError(f'Could not find a team with that id ({id}).')
         

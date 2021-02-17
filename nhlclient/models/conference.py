@@ -1,5 +1,7 @@
+from .base import NHLBase
 
-class Conference():
-    def __init__(self, id, name):
-        self.id = id 
-        self.name = name
+class Conference(NHLBase):
+    def __init__(self, data):
+        NHLBase.__init__(self, data)
+        self.id = self.data.get('id')
+        self.name = self.data.get('name')
