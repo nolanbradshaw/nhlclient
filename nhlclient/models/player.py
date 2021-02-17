@@ -1,23 +1,20 @@
         
 class Player():
-    def __init__(self, id, full_name, position, jersey_number, birth_date,
-                 age, birth_city, birth_state, birth_country, nationality,
-                 height, weight, is_alternate_captain, is_captain, is_rookie,
-                 handedness, current_team_id):
-        self.id = id
-        self.full_name = full_name
-        self.position = position
-        self.jersey_number = jersey_number
-        self.birth_date = birth_date
-        self.age = age
-        self.birth_city = birth_city
-        self.birth_state = birth_state
-        self.birth_country = birth_country,
-        self.nationality = nationality
-        self.height = height
-        self.weight = weight
-        self.is_alternate_captain = is_alternate_captain
-        self.is_captain = is_captain
-        self.is_rookie = is_rookie
-        self.handedness = handedness
-        self.current_team_id = current_team_id
+    def __init__(self, json):
+        self.id = json['id'],
+        self.full_name = json['fullName'],
+        self.position = json['primaryPosition']['name'],
+        self.jersey_number = json['primaryNumber'],
+        self.birth_date = json['birthDate'],
+        self.age = json['currentAge'],
+        self.birth_city = json['birthCity'],
+        self.birth_state = json['birthStateProvince'],
+        self.birth_country = json['birthCountry'],
+        self.nationality = json['nationality'],
+        self.height = json['height'],
+        self.weight = json['weight'],
+        self.is_alternate_captain = json['alternateCaptain'],
+        self.is_captain = json['captain'],
+        self.is_rookie = json['rookie'],
+        self.handedness = json['shootsCatches'],
+        self.current_team_id = json['currentTeam']['id']

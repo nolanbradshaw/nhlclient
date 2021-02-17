@@ -1,38 +1,52 @@
+from .base import NHLBase
 
-
-class PlayerStats():
-    def __init__(self, time_on_ice, assists, goals, penalty_mins,
-                 shots, games, hits, power_play_goals, power_play_points,
-                 power_play_time_on_ice, even_time_on_ice, faceoff_pct,
-                 shot_pct, game_winning_goals, overtime_goals, shorthanded_goals,
-                 shorthanded_points, shorthanded_time_on_ice, blocked_shots, 
-                 plus_minus, points, shifts, time_on_ice_per_game,
-                 even_time_on_ice_per_game, shorthanded_time_on_ice_per_game, 
-                 power_play_time_on_ice_per_game):
-        self.total_toi = time_on_ice
-        self.assists = assists
-        self.goals = goals
-        self.penalty_minutes = penalty_mins
-        self.shots = shots
-        self.games = games
-        self.hits = hits
-        self.power_play_goals = power_play_goals
-        self.power_play_points = power_play_points
-        self.power_play_toi = power_play_time_on_ice
-        self.event_strength_toi = even_time_on_ice
-        self.faceoff_pct = faceoff_pct
-        self.shot_pct = shot_pct
-        self.game_winning_goals = game_winning_goals
-        self.overtime_goals = overtime_goals
-        self.short_handed_goals = shorthanded_goals
-        self.short_handed_points = shorthanded_points
-        self.short_handed_toi = shorthanded_time_on_ice
-        self.blocked_shots = blocked_shots
-        self.plus_minus = plus_minus
-        self.points = points
-        self.shifts = shifts
-        self.toi_per_game = time_on_ice_per_game
-        self.even_toi_per_game = even_time_on_ice_per_game
-        self.short_handed_toi_per_game = shorthanded_time_on_ice_per_game
-        self.power_play_toi_per_game = power_play_time_on_ice_per_game
+class PlayerStats(NHLBase):
+    def __init__(self, data):
+        NHLBase.__init__(self, data)
+        self.time_on_ice = self.data.get('timeOnIce'),
+        self.assists = self.data.get('assists'),
+        self.goals = self.data.get('goals'),
+        self.penalty_mins = self.data.get('pim'),
+        self.shots = self.data.get('shots'),
+        self.games = self.data.get('games'),
+        self.hits = self.data.get('hits'),
+        self.power_play_goals = self.data.get('powerPlayGoals'),
+        self.power_play_points = self.data.get('powerPlayPoints'),
+        self.power_play_time_on_ice = self.data.get('powerPlayTimeOnIce'),
+        self.even_time_on_ice = self.data.get('evenTimeOnIce'),
+        self.faceoff_pct = self.data.get('faceOffPct'),
+        self.shot_pct = self.data.get('shotPct'),
+        self.game_winning_goals = self.data.get('gameWinningGoals'),
+        self.overtime_goals = self.data.get('overTimeGoals'),
+        self.shorthanded_goals = self.data.get('shortHandedGoals'),
+        self.shorthanded_points = self.data.get('shortHandedPoints'),
+        self.shorthanded_time_on_ice = self.data.get('shortHandedTimeOnIce'),
+        self.blocked_shots = self.data.get('blocked'),
+        self.plus_minus = self.data.get('plusMinus'),
+        self.points = self.data.get('points'),
+        self.shifts = self.data.get('shifts'),
+        self.time_on_ice_per_game = self.data.get('timeOnIcePerGame'),
+        self.even_time_on_ice_per_game = self.data.get('evenTimeOnIcePerGame'),
+        self.shorthanded_time_on_ice_per_game = self.data.get('shortHandedTimeOnIcePerGame'),
+        self.power_play_time_on_ice_per_game = self.data.get('powerPlayTimeOnIcePerGame')
+        # Goalie specific stats
+        self.shutouts = self.data.get('shutouts')
+        self.wins = self.data.get('wins')
+        self.losses = self.data.get('losses')
+        self.saves = self.data.get('saves')
+        self.power_play_saves = self.data.get('powerPlaySaves')
+        self.shorthanded_saves = self.data.get('shortHandedSaves')
+        self.shorthanded_shots = self.data.get('shortHandedShots')
+        self.even_strength_saves = self.data.get('evenSaves')
+        self.even_strength_shots = self.data.get('evenShots')
+        self.power_play_shots = self.data.get('powerPlayShots')
+        self.save_pct = self.data.get('savePercentage')
+        self.goal_against_avg = self.data.get('goalAgainstAverage')
+        self.games_started = self.data.get('gamesStarted')
+        self.shots_against = self.data.get('shotsAgainst')
+        self.goals_against = self.data.get('goalsAgainst')
+        self.power_play_save_pct = self.data.get('powerPlaySavePercentage')
+        self.shorthanded_save_pct = self.data.get('shortHandedSavePercentage')
+        self.even_strength_save_pct = self.data.get('evenStrengthSavePercentage')
+        
         
