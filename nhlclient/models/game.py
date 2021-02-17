@@ -15,8 +15,8 @@ class Game(NHLBase):
         self.date = self.data.get('date')
         self.id = self.data.get('gamePk')
         self.season = self.data.get('season')
-        self.away_team = Team(self.data.get('teams', {}).get('away', {}).get('team', {}))
-        self.home_team = Team(self.data.get('teams', {}).get('home', {}).get('team', {}))
+        self.away_team = Team(self.data.get('teams', {}).get('away', {}))
+        self.home_team = Team(self.data.get('teams', {}).get('home', {}))
         self.status = GameStatus(self.data.get('status', {}))
         
     def __str__(self):
