@@ -1,5 +1,7 @@
+from .base import NHLBase
 
-class Venue():
-    def __init__(self, name, city):
-        self.name = name
-        self.city = city
+class Venue(NHLBase):
+    def __init__(self, data):
+        NHLBase.__init__(self, data)
+        self.name = self.data.get('name')
+        self.city = self.data.get('city')
