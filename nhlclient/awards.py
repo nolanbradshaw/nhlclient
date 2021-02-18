@@ -1,4 +1,5 @@
 import requests
+from requests.exceptions import HTTPError
 from .models.award import Award
 from .constants import BASE_URL
 
@@ -15,6 +16,10 @@ def get():
     return award_list
 
 def get_by_id(id):
-    resp = requests.get(BASE_URL + f'/{id}')
-    data = resp.json().get('awards', [{}])[0]
-    return Award(data)
+    try:
+        resp = requests.get(BASE_URL + f'/{id}')
+        resp.raise_for_status()
+        data = resp.json().get('awards', [{}])[0]
+        return Award(data)
+    except HTTPError:
+        return ValueError(f'No award was found for the given id ({id}).')

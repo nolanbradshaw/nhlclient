@@ -57,3 +57,30 @@ TEAMS = {
     'VGK': 54,
     'SEA': 55
 }
+
+AWARDS = {
+    'Stanley Cup': 1,
+    'Jack Adams Award': 2,
+    'Lady Byng Memorial Trophy': 3,
+    'Calder Memorial Trophy': 4,
+    'Clarence S. Campbell Bowl': 5,
+    'King Clancy Memorial Trophy': 6,
+    'Conn Smythe Trophy': 7,
+    'Hart Memorial Trophy': 8,
+    'William M. Jennings Trophy': 9,
+    'Bill Masterton Memorial Trophy': 10,
+    'James Norris Memorial Trophy': 11,
+    'Lester Patrick Trophy': 12,
+    'Ted Lindsay Award': 13,
+    "Presidents' Trophy": 14,
+    'Maurice Richard Trophy': 15,
+    'Art Ross Trophy': 16,
+    'Frank J. Selke Trophy': 17,
+    'Vezina Trophy': 18,
+    'Prince of Wales Trophy': 19,
+    'NHL Lifetime Achievement Award': 20,
+    'NHL Foundation Player Award': 21,
+    'Mark Messier NHL Leadership Award': 22,
+    'NHL General Manager of the Year Award': 23,
+    'E.J. McGuire Award of Excellence': 24
+}
