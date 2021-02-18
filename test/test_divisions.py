@@ -8,18 +8,18 @@ DIVISION_NAME = 'Scotia North'
 DIVISION_ABBR = 'NTH'
 
 class TestDivisions(unittest.TestCase):
-        def test_get_divisions(self):
+        def test_get_all_divisions(self):
             response = divisions.get()
             self.assertIsInstance(response, list)
             self.assertIsInstance(response[0], Division)
             self.assertTrue(response)
             
         def test_get_division_by_id(self):
-            response = divisions.get_by_id(DIVISION_ID)
+            response = divisions.get(DIVISION_ID)
             self.assertEqual(DIVISION_NAME, response.__str__())
             self.assertEqual(DIVISION_ABBR, response.abbreviation)
             self.assertIsInstance(response, Division)
             
         def test_get_division_by_id_not_found(self):
-            self.assertRaises(ValueError, divisions.get_by_id, 0)
+            self.assertRaises(ValueError, divisions.get, 0)
             

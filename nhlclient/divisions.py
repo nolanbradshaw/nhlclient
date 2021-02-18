@@ -4,48 +4,33 @@ from .constants import BASE_URL
 from .models.division import Division
 
 
-def get():
+def get(id = None):
     """
-        Get a list of divisions.
+        Get division by id (all divisions if no id is provided).
 
     Returns:
-        List: A list of Division objects.
-    """
-    url = BASE_URL + f'/divisions'
-    resp = requests.get(url)
-    json = resp.json()['divisions']
-    
-    division_list = []
-    for division in json:
-        division_list.append(Division(division))
-        
-    return division_list
-
-def get_by_id(id):
-    """
-        Get a division by id.
-
-    Args:
-        id (int): The divisions id.
-
-    Raises:
-        ValueError: A division could not be found for the given id.
-
-    Returns:
-        Division: A Division object.
+        Division: A Division object/list.
     """
     try:
-        url = BASE_URL + f'/divisions/{id}'
+        url = BASE_URL + f'/divisions'
+        if id is not None:
+            url += f'/{id}'
+
         resp = requests.get(url)
         resp.raise_for_status()
-        json = resp.json()
-        
-        # API returns an empty object with a 200 if not found.
-        if not len(json['divisions']):
-            raise HTTPError
-        
-        division = json['divisions'][0]
-        return Division(division)
+        json = resp.json()['divisions']
+
+        if len(json) == 1:
+            return Division(json[0])
+        elif len(json):
+            division_list = []
+            for division in json:
+                division_list.append(Division(division))
+
+            return division_list
+        else:
+            raise HTTPError('No division found.') 
     except HTTPError:
-        raise ValueError(f'Could not find a division with id ({id}).')
+        raise ValueError(f'No division could be found for the given id ({id})')
+        
     
