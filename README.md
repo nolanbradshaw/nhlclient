@@ -4,6 +4,7 @@ A wrapper for the undocumented NHL API.
 #### Table of Contents  
 - [Teams](#Teams)
 - [Players](#Players)
+- [Awards](#Awards)
 
 # Teams
 
