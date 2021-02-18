@@ -13,3 +13,8 @@ def get():
         award_list.append(Award(award))
     
     return award_list
+
+def get_by_id(id):
+    resp = requests.get(BASE_URL + f'/{id}')
+    data = resp.json().get('awards', [{}])[0]
+    return Award(data)
