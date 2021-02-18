@@ -6,10 +6,11 @@ from .models.player import Player
 from .models.player_stats import PlayerStats
 
 BASE_URL = BASE_URL + '/people'
+EXPAND_QUERY = '?person.currentTeam'
 
 def get_by_id(id):
     try:
-        url = BASE_URL + f'/{id}'
+        url = BASE_URL + f'/{id}{EXPAND_QUERY}'
         resp = requests.get(url)
         resp.raise_for_status()
         json = resp.json()['people'][0]

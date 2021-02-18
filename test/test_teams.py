@@ -14,6 +14,9 @@ TEAM_NAME = 'Maple Leafs'
 class TestTeams(unittest.TestCase):
     def test_get_by_id(self):
         response = teams.get_by_id(TEAMS['TOR'])
+        
+        # Check that the TeamRecord variables were set properly
+        [self.assertNotEqual(value, None) for name, value in vars(response.record).items()]
         self.assertIsInstance(response, Team)
         self.assertEqual(TEAM_FULL_NAME, response.__str__())
         self.assertEqual(TEAM_NAME, response.team_name)
@@ -27,6 +30,9 @@ class TestTeams(unittest.TestCase):
     
     def test_get(self):
         response = teams.get()
+        
+        # Check that the TeamRecord variables were set properly
+        [self.assertNotEqual(value, None) for name, value in vars(response[0].record).items()]
         self.assertTrue(response)
         self.assertIsInstance(response, list)
         self.assertIsInstance(response[0], Team)

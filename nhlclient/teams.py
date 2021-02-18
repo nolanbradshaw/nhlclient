@@ -5,6 +5,9 @@ from .models.game import Game
 from .models.roster import Roster
 from .models.team import Team
 
+BASE_URL += '/teams'
+EXPAND_RECORD = 'team.record'
+
 def get_by_id(id):
     """
     Get a teams information by its id.
@@ -19,7 +22,7 @@ def get_by_id(id):
         TeamModel: The TeamModel object.
     """
     try:
-        url = BASE_URL + f'/teams/{id}'
+        url = BASE_URL + f'/{id}?expand={EXPAND_RECORD}'
         resp = requests.get(url)
         resp.raise_for_status()
         data = resp.json()['teams'][0]
@@ -34,13 +37,14 @@ def get():
     Returns:
         List: A list of TeamModel objects.
     """
-    resp = requests.get(BASE_URL + '/teams')
+    resp = requests.get(BASE_URL + f'?expand={EXPAND_RECORD}')
     json = resp.json()['teams']
     team_list = []
     for team in json:
         team_list.append(Team(team))
     
     return team_list
+    
 
 def get_roster_by_id(id):
     """
@@ -56,7 +60,7 @@ def get_roster_by_id(id):
         List: A list of PlayerModel objects.
     """
     try:
-        url = BASE_URL + f'/teams/{id}?expand=team.roster'
+        url = BASE_URL + f'/{id}?expand=team.roster'
         resp = requests.get(url)
         resp.raise_for_status()
         json = resp.json()['teams'][0]['roster']['roster']
@@ -84,7 +88,7 @@ def get_roster_by_season(id, season):
         List: A list of PlayerModel objects.
     """
     try:
-        url = BASE_URL + f'/teams/{id}?expand=team.roster&season={season}'
+        url = BASE_URL + f'/{id}?expand=team.roster&season={season}'
         resp = requests.get(url)
         resp.raise_for_status()
         json = resp.json()['teams'][0]['roster']['roster']
@@ -111,7 +115,7 @@ def get_last_game(id):
         Game: A Game object.
     """
     try:
-        url = BASE_URL + f'/teams/{id}?expand=team.schedule.previous'
+        url = BASE_URL + f'/{id}?expand=team.schedule.previous'
         resp = requests.get(url)
         resp.raise_for_status()
         
@@ -135,7 +139,7 @@ def get_next_game(id):
         Game: A Game object.
     """
     try:
-        url = BASE_URL + f'/teams/{id}?expand=team.schedule.next'
+        url = BASE_URL + f'/{id}?expand=team.schedule.next'
         resp = requests.get(url)
         resp.raise_for_status()
         
