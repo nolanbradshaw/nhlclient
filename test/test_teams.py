@@ -6,10 +6,18 @@ from nhlclient.models.player import Player
 from nhlclient.models.team import Team
 from nhlclient.models.roster import Roster
 
+# Constants
+TEAM_ID = TEAMS['TOR']
+TEAM_FULL_NAME = 'Toronto Maple Leafs'
+TEAM_NAME = 'Maple Leafs'
+
 class TestTeams(unittest.TestCase):
     def test_get_by_id(self):
         response = teams.get_by_id(TEAMS['TOR'])
         self.assertIsInstance(response, Team)
+        self.assertEqual(TEAM_FULL_NAME, response.__str__())
+        self.assertEqual(TEAM_NAME, response.team_name)
+        self.assertEqual(TEAM_ID, response.id)
         
     def test_get_by_id_not_found(self):
         """
@@ -19,13 +27,15 @@ class TestTeams(unittest.TestCase):
     
     def test_get(self):
         response = teams.get()
+        self.assertTrue(response)
         self.assertIsInstance(response, list)
-        assert isinstance(response[0], Team)
+        self.assertIsInstance(response[0], Team)
         
     def test_roster_by_id(self):
-        response = teams.get_roster_by_id(TEAMS['TBL'])
+        response = teams.get_roster_by_id(TEAM_ID)
         self.assertIsInstance(response, list)
-        assert isinstance(response[0], Roster)
+        self.assertTrue(response)
+        self.assertIsInstance(response[0], Roster)
         
     def test_roster_by_id_not_found(self):
         """
@@ -34,9 +44,10 @@ class TestTeams(unittest.TestCase):
         self.assertRaises(ValueError, teams.get_roster_by_id, 0)
     
     def test_roster_by_season(self):
-        response = teams.get_roster_by_season(TEAMS['TOR'], '20132014')
+        response = teams.get_roster_by_season(TEAM_ID, '20132014')
         self.assertIsInstance(response, list)
-        assert isinstance(response[0], Roster)
+        self.assertIsInstance(response[0], Roster)
+        self.assertTrue(response)
         
     def test_roster_by_season_not_found(self):
         """
@@ -45,7 +56,7 @@ class TestTeams(unittest.TestCase):
         self.assertRaises(ValueError, teams.get_roster_by_season, TEAMS['MMR'], '20102011')
         
     def test_get_last_game(self):
-        response = teams.get_last_game(TEAMS['EDM'])
+        response = teams.get_last_game(TEAM_ID)
         self.assertIsInstance(response, Game)
         
     def test_get_last_game_not_found(self):
@@ -55,7 +66,7 @@ class TestTeams(unittest.TestCase):
         self.assertRaises(ValueError, teams.get_last_game, 0)
         
     def test_get_next_game(self):
-        response = teams.get_next_game(TEAMS['VAN'])
+        response = teams.get_next_game(TEAM_ID)
         self.assertIsInstance(response, Game)
     
     def test_get_next_game_not_found(self):

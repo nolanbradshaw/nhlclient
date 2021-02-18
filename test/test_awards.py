@@ -6,4 +6,5 @@ class TestAwards(unittest.TestCase):
     def test_get(self):
         resp = awards.get()
         self.assertIsInstance(resp, list)
+        self.assertTrue(resp)
         self.assertIsInstance(resp[0], Award)
