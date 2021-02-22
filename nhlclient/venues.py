@@ -5,19 +5,25 @@ from .models.venue import Venue
 
 BASE_URL += '/venues'
 
-def get():
-    resp = requests.get(BASE_URL)
-    
-    venue_list = []
-    for venue in resp.json().get('venues', []):
-        venue_list.append(Venue(venue))
-        
-    return venue_list
-
-def get_by_id(id):
+def get(id = None):
     try:
-        resp = requests.get(BASE_URL + f'/{id}')
+        url = BASE_URL
+        if id is not None:
+            url += f'/{id}'
+
+        resp = requests.get(url)
         resp.raise_for_status()
-        return Venue(resp.json().get('venues')[0])
+        
+        data = resp.json().get('venues', None)
+        if len(data) == 1:
+            return Venue(data[0])
+        elif len(data):
+            venue_list = []
+            for venue in resp.json().get('venues', []):
+                venue_list.append(Venue(venue))
+
+            return venue_list
+        else:
+            raise HTTPError('No venue found.')
     except HTTPError:
-        raise ValueError('Could not find a venue with the given id.') 
+        raise ValueError(f'Could not find a venue with the given id ({id}).')

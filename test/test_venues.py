@@ -13,8 +13,11 @@ class TestVenues(unittest.TestCase):
         self.assertNotEqual(resp[0].id, None)
         
     def test_get_by_id(self):
-        resp = venues.get_by_id(5)
+        resp = venues.get(5)
 
         self.assertIsInstance(resp, Venue)
         self.assertNotEqual(resp.name, None)
         self.assertNotEqual(resp.id, None)
+        
+    def test_venue_not_found(self):
+        self.assertRaises(ValueError , venues.get, 0)
