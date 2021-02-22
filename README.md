@@ -4,6 +4,7 @@ A wrapper for the undocumented NHL API.
 #### Table of Contents  
 - [Teams](#Teams)
 - [Players](#Players)
+- [Awards](#Awards)
 
 # Teams
 
@@ -55,7 +56,7 @@ Vegas Golden Knights
 from nhlclient import teams
 from nhlclient.constants import TEAMS
 
-team = teams.get_by_id(TEAMS['TOR'])
+team = teams.get(TEAMS['TOR'])
 print(team.record.points_pct, team.record.points)
 ```
 Output:
@@ -143,4 +144,54 @@ Output:
 75   
 44 45
 80
+```
+# Awards
+
+## Get all awards
+```py
+from nhlclient import awards
+
+awards_list = awards.get()
+for award in awards_list:
+  print(award.name)
+```
+Output:
+```
+Stanley Cup
+Jack Adams Award
+Lady Byng Memorial Trophy
+Calder Memorial Trophy
+Clarence S. Campbell Bowl
+King Clancy Memorial Trophy
+Conn Smythe Trophy
+Hart Memorial Trophy
+William M. Jennings Trophy
+Bill Masterton Memorial Trophy
+James Norris Memorial Trophy
+Lester Patrick Trophy
+Ted Lindsay Award
+Presidents' Trophy
+Maurice Richard Trophy
+Art Ross Trophy
+Frank J. Selke Trophy
+Vezina Trophy
+Prince of Wales Trophy
+NHL Lifetime Achievement Award
+NHL Foundation Player Award
+Mark Messier NHL Leadership Award
+NHL General Manager of the Year Award
+E.J. McGuire Award of Excellence
+```
+
+## Get award by id
+```py
+from nhlclient import awards
+from nhlclient.constants import AWARDS
+
+award = awards.get_by_id(AWARDS['Stanley Cup'])
+print(award.description)
+```
+Output:
+```
+History: The Stanley Cup, the oldest trophy competed for by professional athletes in North America, was donated by Frederick Arthur, Lord Stanley of Preston and son of the Earl of Derby, in 1893. Lord Stanley purchased the trophy for 10 guineas ($50 at that time) for presentation to the amateur hockey champions of Canada. Since 1906, when Canadian teams began to pay their players openly, the Stanley Cup has been the symbol of professional hockey supremacy. It has been contested only by NHL teams since 1926-27 and has been under the exclusive control of the NHL since 1947.
 ```
