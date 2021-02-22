@@ -56,7 +56,7 @@ Vegas Golden Knights
 from nhlclient import teams
 from nhlclient.constants import TEAMS
 
-team = teams.get_by_id(TEAMS['TOR'])
+team = teams.get(TEAMS['TOR'])
 print(team.record.points_pct, team.record.points)
 ```
 Output:
