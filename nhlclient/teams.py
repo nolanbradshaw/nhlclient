@@ -8,42 +8,32 @@ from .models.team import Team
 BASE_URL += '/teams'
 EXPAND_RECORD = 'team.record'
 
-def get_by_id(id):
-    """
-    Get a teams information by its id.
-
-    Args:
-        id (int): The id for the team.
-    
-    Raises:
-        ValueError: Could not find a team with the given id.
-
-    Returns:
-        TeamModel: The TeamModel object.
-    """
-    try:
-        url = BASE_URL + f'/{id}?expand={EXPAND_RECORD}'
-        resp = requests.get(url)
-        resp.raise_for_status()
-        data = resp.json()['teams'][0]
-        return Team(data)
-    except HTTPError:
-        raise ValueError(f'Could not find a team with that id ({id}).')
-
-def get():
+def get(id = None):
     """
     Get information for all teams.
 
     Returns:
         List: A list of TeamModel objects.
     """
-    resp = requests.get(BASE_URL + f'?expand={EXPAND_RECORD}')
-    json = resp.json()['teams']
-    team_list = []
-    for team in json:
-        team_list.append(Team(team))
-    
-    return team_list
+    try:
+        url = BASE_URL
+        if id is not None:
+            url += f'/{id}'
+        resp = requests.get(url + f'?expand={EXPAND_RECORD}')
+        resp.raise_for_status()
+        
+        json = resp.json()['teams']
+        if len(json) == 1:
+            return Team(json[0])
+        elif len(json):
+            team_list = []
+            for team in json:
+                team_list.append(Team(team))
+            return team_list
+        else:
+            raise HTTPError('No division found.') 
+    except HTTPError:
+        raise ValueError('No team could be found for the given id.')
     
 
 def get_roster_by_id(id):

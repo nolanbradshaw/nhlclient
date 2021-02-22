@@ -13,7 +13,7 @@ TEAM_NAME = 'Maple Leafs'
 
 class TestTeams(unittest.TestCase):
     def test_get_by_id(self):
-        response = teams.get_by_id(TEAMS['TOR'])
+        response = teams.get(TEAMS['TOR'])
         
         # Check that the TeamRecord variables were set properly
         [self.assertNotEqual(value, None) for name, value in vars(response.record).items()]
@@ -26,15 +26,15 @@ class TestTeams(unittest.TestCase):
         """
             Should raise a ValueError as no team with id 0 exists.
         """
-        self.assertRaises(ValueError, teams.get_by_id, 0)
+        self.assertRaises(ValueError, teams.get, 0)
     
     def test_get(self):
         response = teams.get()
         
         # Check that the TeamRecord variables were set properly
         [self.assertNotEqual(value, None) for name, value in vars(response[0].record).items()]
-        self.assertTrue(response)
         self.assertIsInstance(response, list)
+        self.assertTrue(len(response) == 31)
         self.assertIsInstance(response[0], Team)
         
     def test_roster_by_id(self):
