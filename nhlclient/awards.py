@@ -5,21 +5,23 @@ from .constants import BASE_URL
 
 BASE_URL += '/awards'
 
-def get():
-    resp = requests.get(BASE_URL)
-    data = resp.json().get('awards', [])
-    
-    award_list = []
-    for award in data:
-        award_list.append(Award(award))
-    
-    return award_list
-
-def get_by_id(id):
+def get(id = None):
     try:
-        resp = requests.get(BASE_URL + f'/{id}')
-        resp.raise_for_status()
-        data = resp.json().get('awards', [{}])[0]
-        return Award(data)
+        url = BASE_URL 
+        if id is not None:
+            url += f'/{id}'
+
+        resp = requests.get(url)
+        data = resp.json().get('awards', [{}])
+
+        if len(data) == 1:
+            return Award(data[0])
+        elif len(data):
+            award_list = []
+            for award in data:
+                award_list.append(Award(award))
+            return award_list
+        else:
+            raise HTTPError()
     except HTTPError:
-        return ValueError(f'No award was found for the given id ({id}).')
+        raise ValueError('No award could be found')

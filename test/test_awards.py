@@ -16,7 +16,7 @@ class TestAwards(unittest.TestCase):
         self.assertIsInstance(resp[0], Award)
         
     def test_get_by_id(self):
-        resp = awards.get_by_id(AWARD_ID)
+        resp = awards.get(AWARD_ID)
 
         self.assertIsInstance(resp, Award)
         self.assertEqual(AWARD_NAME, resp.__str__())
