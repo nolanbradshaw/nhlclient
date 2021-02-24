@@ -2,8 +2,8 @@ import requests
 from requests.exceptions import HTTPError
 from .constants import BASE_URL
 from .models.game import Game
-from .models.roster import Roster
-from .models.team import Team
+from .models.simplified_player import SimplifiedPlayer
+from .models.full_team import FullTeam
 
 BASE_URL += '/teams'
 EXPAND_RECORD = 'team.record'
@@ -24,17 +24,16 @@ def get(id = None):
         
         json = resp.json()['teams']
         if len(json) == 1:
-            return Team(json[0])
+            return FullTeam(json[0])
         elif len(json):
             team_list = []
             for team in json:
-                team_list.append(Team(team))
+                team_list.append(FullTeam(team))
             return team_list
         else:
             raise HTTPError('No division found.') 
     except HTTPError:
-        raise ValueError('No team could be found for the given id.')
-    
+        raise ValueError('No team could be found for the given id.')  
 
 def get_roster_by_id(id):
     """
@@ -57,7 +56,7 @@ def get_roster_by_id(id):
 
         player_list = []
         for player in json:
-            player_list.append(Roster(player))
+            player_list.append(SimplifiedPlayer(player))
             
         return player_list
     except HTTPError:
@@ -85,7 +84,7 @@ def get_roster_by_season(id, season):
         
         player_list = []
         for player in json:   
-            player_list.append(Roster(player))
+            player_list.append(SimplifiedPlayer(player))
         
         return player_list
     except HTTPError:
@@ -109,8 +108,7 @@ def get_last_game(id):
         resp = requests.get(url)
         resp.raise_for_status()
         
-        json = resp.json()['teams'][0]['previousGameSchedule']['dates'][0]
-        data = json['games'][0]
+        data = resp.json()['teams'][0]['previousGameSchedule']['dates'][0]
         return Game(data)
     except HTTPError:
         raise ValueError(f'Could not find a team with that id ({id}).')
@@ -133,8 +131,7 @@ def get_next_game(id):
         resp = requests.get(url)
         resp.raise_for_status()
         
-        json = resp.json()['teams'][0]['nextGameSchedule']['dates'][0]
-        data = json['games'][0]
+        data = resp.json()['teams'][0]['nextGameSchedule']['dates'][0]
         return Game(data)
     except HTTPError:
         raise ValueError(f'Could not find a team with that id ({id}).')

@@ -1,23 +1,18 @@
 from .base import NHLBase
-from .team import Team
-
-class GameStatus(NHLBase):
-    def __init__(self, data):
-        NHLBase.__init__(self, data)
-        self.state = self.data.get('detailedState', '')
-    
-    def __str__(self):
-        return self.state
+from .simplified_team import SimplifiedTeam
+from .game_status import GameStatus
     
 class Game(NHLBase):
     def __init__(self, data):
         NHLBase.__init__(self, data)
+        
+        self.id = self.data.get('games')[0].get('gamePk')
         self.date = self.data.get('date')
-        self.id = self.data.get('gamePk')
-        self.season = self.data.get('season')
-        self.away_team = Team(self.data.get('teams', {}).get('away', {}))
-        self.home_team = Team(self.data.get('teams', {}).get('home', {}))
-        self.status = GameStatus(self.data.get('status', {}))
+        self.season = self.data.get('games')[0].get('season')
+        self.status = GameStatus(self.data.get('games')[0].get('status', {}))
+        
+        self.away_team = SimplifiedTeam(self.data.get('games')[0].get('teams', {}).get('away', {}).get('team'))
+        self.home_team = SimplifiedTeam(self.data.get('games')[0].get('teams', {}).get('home', {}).get('team'))
         
     def __str__(self):
         return f'{self.away_team} vs {self.home_team}'

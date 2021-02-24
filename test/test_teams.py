@@ -2,9 +2,8 @@ import unittest
 from nhlclient import teams
 from nhlclient.constants import TEAMS
 from nhlclient.models.game import Game
-from nhlclient.models.player import Player
-from nhlclient.models.team import Team
-from nhlclient.models.roster import Roster
+from nhlclient.models.full_team import FullTeam
+from nhlclient.models.simplified_player import SimplifiedPlayer
 
 # Constants
 TEAM_ID = TEAMS['TOR']
@@ -15,9 +14,7 @@ class TestTeams(unittest.TestCase):
     def test_get_by_id(self):
         response = teams.get(TEAMS['TOR'])
         
-        # Check that the TeamRecord variables were set properly
-        [self.assertNotEqual(value, None) for name, value in vars(response.record).items()]
-        self.assertIsInstance(response, Team)
+        self.assertIsInstance(response, FullTeam)
         self.assertEqual(TEAM_FULL_NAME, response.__str__())
         self.assertEqual(TEAM_NAME, response.team_name)
         self.assertEqual(TEAM_ID, response.id)
@@ -31,17 +28,15 @@ class TestTeams(unittest.TestCase):
     def test_get(self):
         response = teams.get()
         
-        # Check that the TeamRecord variables were set properly
-        [self.assertNotEqual(value, None) for name, value in vars(response[0].record).items()]
         self.assertIsInstance(response, list)
         self.assertTrue(len(response) == 31)
-        self.assertIsInstance(response[0], Team)
+        self.assertIsInstance(response[0], FullTeam)
         
     def test_roster_by_id(self):
         response = teams.get_roster_by_id(TEAM_ID)
         self.assertIsInstance(response, list)
         self.assertTrue(response)
-        self.assertIsInstance(response[0], Roster)
+        self.assertIsInstance(response[0], SimplifiedPlayer)
         
     def test_roster_by_id_not_found(self):
         """
@@ -52,7 +47,7 @@ class TestTeams(unittest.TestCase):
     def test_roster_by_season(self):
         response = teams.get_roster_by_season(TEAM_ID, '20132014')
         self.assertIsInstance(response, list)
-        self.assertIsInstance(response[0], Roster)
+        self.assertIsInstance(response[0], SimplifiedPlayer)
         self.assertTrue(response)
         
     def test_roster_by_season_not_found(self):

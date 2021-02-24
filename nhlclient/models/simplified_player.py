@@ -1,7 +1,7 @@
 from .base import NHLBase
 from .position import Position
 
-class Roster(NHLBase):
+class SimplifiedPlayer(NHLBase):
     def __init__(self, data):
         NHLBase.__init__(self, data)
         self.id = self.data.get('person').get('id')
