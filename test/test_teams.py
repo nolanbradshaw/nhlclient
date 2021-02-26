@@ -57,8 +57,8 @@ class TestTeams(unittest.TestCase):
         self.assertRaises(ValueError, teams.get_roster_by_season, TEAMS['MMR'], '20102011')
         
     def test_get_last_game(self):
-        response = teams.get_last_game(TEAM_ID)
-        self.assertIsInstance(response, Game)
+        resp = teams.get_last_game(TEAM_ID)
+        self.assertIsInstance(resp, Game)
         
     def test_get_last_game_not_found(self):
         """
@@ -67,8 +67,8 @@ class TestTeams(unittest.TestCase):
         self.assertRaises(ValueError, teams.get_last_game, 0)
         
     def test_get_next_game(self):
-        response = teams.get_next_game(TEAM_ID)
-        self.assertIsInstance(response, Game)
+        resp = teams.get_next_game(TEAM_ID)
+        self.assertIsInstance(resp, Game)
     
     def test_get_next_game_not_found(self):
         self.assertRaises(ValueError, teams.get_next_game, 0)

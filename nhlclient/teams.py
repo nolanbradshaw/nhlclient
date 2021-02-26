@@ -109,7 +109,7 @@ def get_last_game(id):
         resp.raise_for_status()
         
         data = resp.json()['teams'][0]['previousGameSchedule']['dates'][0]
-        return Game(data)
+        return Game(data.get('games', [{}])[0])
     except HTTPError:
         raise ValueError(f'Could not find a team with that id ({id}).')
     
@@ -132,7 +132,7 @@ def get_next_game(id):
         resp.raise_for_status()
         
         data = resp.json()['teams'][0]['nextGameSchedule']['dates'][0]
-        return Game(data)
+        return Game(data.get('games', [{}])[0])
     except HTTPError:
         raise ValueError(f'Could not find a team with that id ({id}).')
         
