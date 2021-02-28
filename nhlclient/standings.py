@@ -1,20 +1,16 @@
 import requests
-from .models.standings import Standings
 from .constants import BASE_URL
-from requests.exceptions import HTTPError
 
-BASE_URL += '/standings'
-
-def get():
-    url = BASE_URL
-    
-    resp = requests.get(url)
-    data = resp.json().get('records')
-    
-    standings_list = []
-    for record in data:
-        for team in record.get('teamRecords', []):
-            standings_list.append(Standings(team))
-            
-    return standings_list
+class Standings():
+    def __init__(self):
+        self.__base_url = BASE_URL + '/standings'
+        
+    def all(self):
+        return self.__get_standings()
+        
+    def __get_standings(self):
+        data = requests.get(self.__base_url)
+        data.raise_for_status()
+        
+        return data.json()
     

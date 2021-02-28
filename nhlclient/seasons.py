@@ -1,30 +1,23 @@
 import requests
-from requests.exceptions import HTTPError
 from .constants import BASE_URL
-from .models.season import Season
 
-BASE_URL += '/seasons'
-
-def get(id = None):
-    try:
-        url = BASE_URL
+class Seasons():
+    def __init__(self):
+        self.__base_url = BASE_URL + '/seasons'
+    
+    def all(self):
+        return self.__get_season()
+        
+    def get(self, id):
+        return self.__get_season(id)
+    
+    def __get_season(self, id=None):
+        url = self.__base_url
         if id is not None:
             url += f'/{id}'
+            
+        data = requests.get(url)
+        data.raise_for_status()
         
-        resp = requests.get(url)
-        resp.raise_for_status()
-        
-        data = resp.json().get('seasons')
-        if len(data) == 1:
-            return Season(data[0])
-        elif len(data):
-            season_list = []
-            for season in data:
-                season_list.append(Season(season))
-    
-            return season_list
-        else:
-            raise HTTPError('No season found.')
-    except HTTPError:
-        raise ValueError('No season found.')
+        return data.json()
         

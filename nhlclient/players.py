@@ -1,19 +1,17 @@
 import requests
-import json
-from requests.exceptions import HTTPError
 from .constants import BASE_URL
-from .models.full_player import FullPlayer
 
-BASE_URL = BASE_URL + '/people'
-EXPAND_QUERY = '?person.currentTeam'
-
-def get_by_id(id):
-    try:
-        url = BASE_URL + f'/{id}{EXPAND_QUERY}'
-        resp = requests.get(url)
-        resp.raise_for_status()
-        json = resp.json()['people'][0]
+class Players():
+    def __init__(self):
+        self.__base_url = BASE_URL + '/people'
         
-        return FullPlayer(json)
-    except HTTPError:
-        raise ValueError(f'No player could be found with id ({id}).')
+    def get(self, id):
+        return self.__get_player(id)
+    
+    def __get_player(self, id):
+        url = self.__base_url + f'/{id}'
+        
+        data = requests.get(url)
+        data.raise_for_status()
+        
+        return data.json()

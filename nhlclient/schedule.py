@@ -1,17 +1,16 @@
 import requests
-from requests.exceptions import HTTPError
 from .constants import BASE_URL
-from .models.schedule import Schedule
 
-BASE_URL += '/schedule'
-
-def get_by_date(date):
-    # Get by single date
-    if date is None:
-        raise ValueError('Date cannot be None.')
-    
-    url = BASE_URL + f'?date={date}'
-    resp = requests.get(url)
-    data = resp.json()['dates'][0]
-    
-    return Schedule(data)
+class Schedule():
+    def __init__(self):
+        self.__base_url = BASE_URL + '/schedule'
+        
+    def by_date(self, date):
+        return self.__get_by_date(date)
+        
+    def __get_by_date(self, date):
+        url = self.__base_url + f'?date={date}'
+        data = requests.get(url)
+        data.raise_for_status()
+        
+        return data.json()

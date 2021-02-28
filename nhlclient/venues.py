@@ -1,29 +1,22 @@
 import requests
-from requests.exceptions import HTTPError
 from .constants import BASE_URL
-from .models.venue import Venue
 
-BASE_URL += '/venues'
-
-def get(id = None):
-    try:
-        url = BASE_URL
+class Venues():
+    def __init__(self):
+        self.__base_url = BASE_URL + '/venues'
+        
+    def all(self):
+        return self.__get_venue()    
+    
+    def get(self, id):
+        return self.__get_venue(id)
+    
+    def __get_venue(self, id=None):
+        url = self.__base_url
         if id is not None:
             url += f'/{id}'
-
-        resp = requests.get(url)
-        resp.raise_for_status()
         
-        data = resp.json().get('venues', None)
-        if len(data) == 1:
-            return Venue(data[0])
-        elif len(data):
-            venue_list = []
-            for venue in resp.json().get('venues', []):
-                venue_list.append(Venue(venue))
-
-            return venue_list
-        else:
-            raise HTTPError('No venue found.')
-    except HTTPError:
-        raise ValueError(f'Could not find a venue with the given id ({id}).')
+        data = requests.get(url)
+        data.raise_for_status()
+        
+        return data.json()
