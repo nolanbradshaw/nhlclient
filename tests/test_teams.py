@@ -21,3 +21,13 @@ class TestTeams(unittest.TestCase):
         self.assertTrue(
             result['teams'][0]['name'] == TEAM_FULL_NAME
         )
+        
+    def test_stats(self):
+        result = Team().stats(TEAM_ID)
+        
+        self.assertTrue(
+            result['stats'][0]['splits'][0]['team']['name'] == TEAM_FULL_NAME
+        )
+        self.assertTrue(
+            result['stats'][0]['splits'][0]['team']['id'] == TEAM_ID
+        )

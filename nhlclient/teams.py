@@ -10,6 +10,17 @@ class Team:
     
     def by_id(self, id):
         return self.__get_team(id)
+    
+    def stats(self, id):
+        return self.__get_stats(id)
+    
+    def __get_stats(self, id):
+        url = self.__base_url + f'/{id}/stats'
+        
+        data = requests.get(url)
+        data.raise_for_status()
+        
+        return data.json()
 
     def __get_team(self, id = None):
         url = self.__base_url
