@@ -1,2 +1,2 @@
 # nhlclient
-A wrapper for the undocumented NHL API.
+A Python library for the undocumented NHL API.
