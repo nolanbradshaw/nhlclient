@@ -1,15 +1,15 @@
 import unittest
-from nhlclient.venues import Venues
+import nhlclient
 
 VENUE_ID = 14
 VENUE_NAME = 'Rogers Centre'
 
 class TestVenues(unittest.TestCase):
     def test_all(self):
-        result = Venues().all()
+        result = nhlclient.NhlClient().venues()
         
     def test_get(self):
-        result = Venues().get(VENUE_ID)
+        result = nhlclient.NhlClient().venue(VENUE_ID)
         
         self.assertTrue(
             result['venues'][0]['id'] == VENUE_ID

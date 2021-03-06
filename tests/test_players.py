@@ -1,5 +1,5 @@
 import unittest
-from nhlclient.players import Players
+import nhlclient
 
 # Constants
 PLAYER_ID = 8471675
@@ -9,10 +9,8 @@ PLAYER_POSITION = 'Center'
 
 
 class TestPlayers(unittest.TestCase):
-    players = Players(PLAYER_ID)
-    
     def test_get(self):
-        result = self.players.get()
+        result = nhlclient.NhlClient().player(PLAYER_ID)
         
         self.assertTrue(len(result['people']) == 1)
         self.assertTrue(
@@ -23,7 +21,7 @@ class TestPlayers(unittest.TestCase):
         )
         
     def test_get_stats_by_year(self):
-        result = self.players.stats_by_year('20162017')
+        result = nhlclient.NhlClient().player_year_stats(PLAYER_ID, '20162017')
         
         self.assertTrue(
             result['stats'][0]['type']['displayName'] == 'statsSingleSeason'
@@ -32,5 +30,5 @@ class TestPlayers(unittest.TestCase):
             result['stats'][0]['splits'][0]['season'] == '20162017'
         )
         
-    def test_get_career_stats_by_year(self):
-        result = self.players.career_stats_by_year()
+    def test_get_career_stats(self):
+        result = nhlclient.NhlClient().player_career_stats(PLAYER_ID)

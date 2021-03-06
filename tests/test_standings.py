@@ -1,6 +1,6 @@
 import unittest
-from nhlclient.standings import Standings
+import nhlclient
 
 class TestStandings(unittest.TestCase):
     def test_all(self):
-        result = Standings().all()
+        result = nhlclient.NhlClient().standings()

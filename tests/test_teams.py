@@ -1,19 +1,19 @@
 import unittest
-from nhlclient.teams import Team
-from nhlclient.constants import TEAMS
+import nhlclient
 
 # Constants
-TEAM_ID = TEAMS['TOR']
+TEAM_ID = nhlclient.TEAMS['TOR']
 TEAM_FULL_NAME = 'Toronto Maple Leafs'
 TEAM_NAME = 'Maple Leafs'
 
 class TestTeams(unittest.TestCase):
     
     def test_all(self):
-        result = Team().all()
+        result = nhlclient.NhlClient().teams([TEAM_ID, nhlclient.TEAMS['MTL']])
+        
     
     def test_by_id(self):
-        result = Team().by_id(TEAM_ID)
+        result = nhlclient.NhlClient().team(TEAM_ID)
         
         self.assertTrue(len(result['teams']) == 1)
         self.assertTrue(result['teams'][0]['id'] == TEAM_ID)
@@ -23,7 +23,7 @@ class TestTeams(unittest.TestCase):
         )
         
     def test_stats(self):
-        result = Team().stats(TEAM_ID)
+        result = nhlclient.NhlClient().team_stats(TEAM_ID)
         
         self.assertTrue(
             result['stats'][0]['splits'][0]['team']['name'] == TEAM_FULL_NAME
