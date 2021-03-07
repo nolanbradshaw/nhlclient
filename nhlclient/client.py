@@ -66,15 +66,15 @@ class NhlClient(object):
         """
         return self._get(BASE_URL + f'/people/{player_id}/stats?stats=yearByYear')
     
-    def player_year_stats(self, player_id, year):
+    def player_season_stats(self, player_id, season):
         """Get a players stats by year.
 
         Args:
             player_id (int): The id for the player.
-            year (str): The year to retrieve stats for.
+            season (str): The season to retrieve stats for (ex. 20162017).
         """
         return self._get(
-            BASE_URL + f'/people/{player_id}/stats?stats=statsSingleSeason&season={year}'
+            BASE_URL + f'/people/{player_id}/stats?stats=statsSingleSeason&season={season}'
         )
         
     def seasons(self):

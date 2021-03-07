@@ -21,7 +21,7 @@ class TestPlayers(unittest.TestCase):
         )
         
     def test_get_stats_by_year(self):
-        result = nhlclient.NhlClient().player_year_stats(PLAYER_ID, '20162017')
+        result = nhlclient.NhlClient().player_season_stats(PLAYER_ID, '20162017')
         
         self.assertTrue(
             result['stats'][0]['type']['displayName'] == 'statsSingleSeason'
