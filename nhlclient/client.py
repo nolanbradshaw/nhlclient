@@ -8,6 +8,13 @@ class NhlClient(object):
         
         return resp.json()
     
+    def _comma_seperate_list(self, lst):
+        delimited_str = ''
+        if lst:
+            delimited_str = ','.join(str(id) for id in lst)
+            
+        return delimited_str
+    
     def team(self, team_id):
         """Get a team by id.
 
@@ -26,7 +33,8 @@ class NhlClient(object):
         """
         url = BASE_URL + f'/teams'
         if team_ids:
-            url += f'?teamId=' + ','.join(str(id) for id in team_ids)
+            q_str = self._comma_seperate_list(team_ids)
+            url += f'?teamId={q_str}'
             
         return self._get(url)
     
@@ -38,13 +46,15 @@ class NhlClient(object):
         """
         return self._get(BASE_URL + f'/teams/{team_id}/stats')
     
-    def team_roster(self, team_id):
-        """Get a teams current roster.
-
-        Args:
-            team_id (int): The id for the team.
+    def team_rosters(self, team_ids=[]):
+        """Get all teams current rosters.
         """
-        return self._get(BASE_URL + f'/teams/{team_id}?expand=team.roster')
+        url = BASE_URL + f'/teams?expand=team.roster'
+        if team_ids:
+            q_str = self._comma_seperate_list(team_ids)
+            url += f'&teamIds={q_str}'
+        
+        return self._get(BASE_URL + f'/teams?expand=team.roster')
     
     def standings(self):
         """Get the current standings.

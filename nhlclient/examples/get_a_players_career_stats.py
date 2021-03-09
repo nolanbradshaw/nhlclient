@@ -1,6 +1,6 @@
 import nhlclient
 
-# NOTE: You can get player ids from team rosters.
+# NOTE: You can get player ids from client.team_rosters([TEAM_ID]).
 
 # Sidney Crosby
 PLAYER_ID = 8471675

@@ -36,4 +36,7 @@ class TestTeams(unittest.TestCase):
         )
         
     def test_roster(self):
-        result = nhlclient.NhlClient().team_roster(TEAM_ID)
+        result = nhlclient.NhlClient().team_rosters([TEAM_ID])
+        
+    def test_rosters(self):
+        result = nhlclient.NhlClient().team_rosters()
