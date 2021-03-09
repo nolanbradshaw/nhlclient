@@ -34,3 +34,6 @@ class TestTeams(unittest.TestCase):
         self.assertTrue(
             result['stats'][0]['splits'][0]['team']['id'] == TEAM_ID
         )
+        
+    def test_roster(self):
+        result = nhlclient.NhlClient().team_roster(TEAM_ID)

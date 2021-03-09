@@ -38,6 +38,14 @@ class NhlClient(object):
         """
         return self._get(BASE_URL + f'/teams/{team_id}/stats')
     
+    def team_roster(self, team_id):
+        """Get a teams current roster.
+
+        Args:
+            team_id (int): The id for the team.
+        """
+        return self._get(BASE_URL + f'/teams/{team_id}?expand=team.roster')
+    
     def standings(self):
         """Get the current standings.
         """
