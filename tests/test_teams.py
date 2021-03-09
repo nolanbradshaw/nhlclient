@@ -27,7 +27,7 @@ class TestTeams(unittest.TestCase):
         
     def test_stats(self):
         result = nhlclient.NhlClient().team_stats(TEAM_ID)
-        
+
         self.assertTrue(
             result['stats'][0]['splits'][0]['team']['name'] == TEAM_FULL_NAME
         )
