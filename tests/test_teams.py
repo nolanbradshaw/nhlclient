@@ -1,5 +1,6 @@
 import unittest
 import nhlclient
+from nhlclient import constants
 
 # Constants
 TEAM_ID = nhlclient.TEAMS['TOR']
@@ -9,8 +10,10 @@ TEAM_NAME = 'Maple Leafs'
 class TestTeams(unittest.TestCase):
     
     def test_all(self):
+        result = nhlclient.NhlClient().teams()
+    
+    def test_list(self):
         result = nhlclient.NhlClient().teams([TEAM_ID, nhlclient.TEAMS['MTL']])
-        
     
     def test_by_id(self):
         result = nhlclient.NhlClient().team(TEAM_ID)
